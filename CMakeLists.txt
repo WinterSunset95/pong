@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(Pong VERSION 1.0 DESCRIPTION "Pong game in C++ and SDL" LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 98)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 # SDL
@@ -21,10 +22,12 @@ include_directories(${SDL_DIR}/include ${IMG_DIR}/include ${TTF_DIR}/include src
 file(GLOB SOURCES "src/*.cpp")
 
 if (WIN32)
+	message(STATUS "Building for Windows")
 	link_directories(${SDL_DIR}/lib ${IMG_DIR}/lib ${TTF_DIR}/lib)
 	add_executable(pong ${SOURCES})
-	target_link_libraries(pong libSDL3.dll.a libSDL3_image.dll.a libSDL3_ttf.dll.a)
+	target_link_libraries(pong -static libSDL3.dll.a libSDL3_image.dll.a libSDL3_ttf.dll.a)
 else()
+	message(STATUS "Building for Linux")
 	add_executable(pong ${SOURCES})
 	find_package(SDL3 REQUIRED CONFIG)
 	target_link_libraries(pong SDL3 SDL3_image SDL3_ttf)

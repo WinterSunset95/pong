@@ -1,9 +1,18 @@
-#include <SDL3/SDL.h>
 #include <iostream>
+#include "headers/game.hpp"
 
 using namespace std;
 
 int main() {
-	cout << "Hello there humans" << endl;
+	Game game;
+
+	if (!game.Init()) {
+		std::cerr << "Failed to initialize game\n";
+		return -1;
+	}
+
+	game.Run();
+	game.Clean();
+
 	return 0;
 }
